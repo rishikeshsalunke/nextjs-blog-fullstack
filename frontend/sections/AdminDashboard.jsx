@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-const API = process.env.NEXT_PUBLIC_API_URL;
+// OLD:
+// const API = process.env.NEXT_PUBLIC_API_URL;
+
+// NEW:
+const API = "/api";
 
 export default function AdminDashboard() {
     const router = useRouter();
@@ -19,34 +23,53 @@ export default function AdminDashboard() {
     };
 
     const fetchBlogs = async () => {
-        const res = await fetch(`${API}/getall`);
-        const data = await res.json();
-        setBlogs(data.data);
+        try {
+            const res = await fetch(`${API}/getall`);
+            const data = await res.json();
+            setBlogs(data.data);
+        } catch (err) {
+            console.error("Error fetching blogs:", err);
+            alert("Failed to fetch blogs. Please try again later.");
+        }
     };
+
 
     useEffect(() => {
         fetchBlogs();
     }, []);
 
     const handleSubmit = async () => {
-        if (editId) {
-            await fetch(`${API}/update/${editId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ title, content }),
-            });
-        } else {
-            await fetch(`${API}/create`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ title, content }),
-            });
-        }
+        try {
+            let res;
+            if (editId) {
+                res = await fetch(`${API}/update/${editId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title, content }),
+                });
+            } else {
+                res = await fetch(`${API}/create`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title, content }),
+                });
+            }
 
-        setTitle("");
-        setContent("");
-        setEditId(null);
-        fetchBlogs();
+            const data = await res.json();
+            console.log("Create/Update response:", data);
+
+            if (!data.success) {
+                alert(data.message || "Something went wrong");
+                return;
+            }
+
+            setTitle("");
+            setContent("");
+            setEditId(null);
+            fetchBlogs();
+        } catch (err) {
+            console.error("Error in handleSubmit:", err);
+        }
     };
 
     const handleDelete = async (id) => {
