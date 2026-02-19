@@ -78,7 +78,7 @@ export const Navbar = () => {
                     </Button>
 
                     <Button size="sm" onClick={goAdmin}>
-                        Admin
+                        Admin Login
                     </Button>
                 </div>
 
@@ -117,7 +117,7 @@ export const Navbar = () => {
                         </Button>
 
                         <Button size="sm" onClick={goAdmin}>
-                            Admin
+                            Admin Login
                         </Button>
 
 
