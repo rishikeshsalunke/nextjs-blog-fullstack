@@ -7,17 +7,15 @@ export default function AdminPage() {
   const [auth, setAuth] = useState(false);
   const [password, setPassword] = useState("");
 
-  // Check login on page load
   useEffect(() => {
-    const savedAuth = localStorage.getItem("adminAuth");
-    if (savedAuth === "true") {
+    if (localStorage.getItem("adminAuth") === "true") {
       setAuth(true);
     }
   }, []);
 
   const checkPassword = () => {
     if (password === "admin") {
-      localStorage.setItem("adminAuth", "true"); // save login
+      localStorage.setItem("adminAuth", "true");
       setAuth(true);
     } else {
       alert("Wrong password");
@@ -38,7 +36,7 @@ export default function AdminPage() {
 
         <button
           onClick={checkPassword}
-          className="bg-black text-white px-4 py-2 ml-2"
+          className="bg-black text-white px-4 py-2"
         >
           Login
         </button>
