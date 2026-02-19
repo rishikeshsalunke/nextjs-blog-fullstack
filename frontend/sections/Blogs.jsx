@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export function Blogs() {
   const [blogs, setBlogs] = useState([]);
-  const API = "http://localhost:5000/api/v1/blogs";
+  const API = process.env.NEXT_PUBLIC_API_URL;;
 
   // ================= GET ALL =================
   const fetchBlogs = async () => {
