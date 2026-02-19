@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-const API = "http://localhost:5000/api/v1/blogs";
+const API = process.env.NEXT_PUBLIC_API_URL;
 
 export default function AdminDashboard() {
     const router = useRouter();

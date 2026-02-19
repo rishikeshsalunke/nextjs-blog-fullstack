@@ -16,7 +16,7 @@ const app = express();
 
 // 5️⃣ Middlewares
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: process.env.CLIENT_URL || "https://nextjs-blog-fullstack-zeta.vercel.app/",
   methods: ["GET","POST","PUT","DELETE"],
   credentials: true
 }));
